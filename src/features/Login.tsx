@@ -2,9 +2,11 @@ import { useState } from "react";
 import { END_POINTS } from "../api/api-urls";
 import { axiosInstance as axios } from "../api/axios";
 import InputField from "../components/InputField";
-import { Status, Status_4XX } from "../constants";
+import { Status } from "../constants";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { handleError } from "../utils/helperFunctions";
+import type { User } from "../context/AuthContext";
 
 const Login = () => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -17,17 +19,11 @@ const Login = () => {
       const URL = API_BASE_URL + END_POINTS.auth.login;
       const response = await axios.post(URL, { username, password });
       if (response.status === Status.Success) {
-        const user = (response.data as any).user;
+        const user: User = (response.data as any).user;
         login(user);
       }
     } catch (error: any) {
-      console.log(error);
-      if (Status_4XX.includes(error.response?.status)) {
-        alert(error.response.data.error);
-        return;
-      }
-      alert(error.message);
-      console.error("Caught Exception: ", error.message);
+      handleError(error);
     }
   };
   const handleLoginFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

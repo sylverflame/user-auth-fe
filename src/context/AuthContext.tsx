@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 export type User = {
   username: string;
   role: string;
+  isAdmin: boolean;
   token: string;
 };
 

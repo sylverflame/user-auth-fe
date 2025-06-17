@@ -2,9 +2,10 @@ import { useState } from "react";
 import InputField from "../components/InputField";
 import { axiosInstance as axios } from "../api/axios";
 import { END_POINTS } from "../api/api-urls";
-import { Status, Status_4XX } from "../constants";
+import { Status } from "../constants";
 import { RegisterUserSchema, type RegisterUser } from "../schemas/schemas";
 import { useNavigate } from "react-router-dom";
+import { handleError } from "../utils/helperFunctions";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -41,12 +42,7 @@ const Register = () => {
         navigate("/");
       }
     } catch (error: any) {
-      if (Status_4XX.includes(error.response?.status)) {
-        alert(error.response.data.error);
-        return;
-      }
-      alert(error.message);
-      console.error("Caught Exception", error.message);
+      handleError(error);
     }
   };
   return (

@@ -13,7 +13,10 @@ const Header = ({ user }: HeaderProps): React.ReactNode => {
   };
   return (
     <div className="header-component">
-      <p>Logged User: {user?.username}</p>
+      <p>
+        <span>Logged User: {user?.username}</span>
+        <span>Role: {user?.role}</span>
+      </p>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
