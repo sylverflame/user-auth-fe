@@ -5,10 +5,13 @@ import { handleError } from "../utils/helperFunctions";
 import { Status_2XX } from "../constants";
 import useAuth from "../hooks/useAuth";
 import type { User } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UserList = () => {
   const { user: loggedInUser } = useAuth();
   const [userList, setUserList] = useState([]);
+
+  const navigate = useNavigate();
   useEffect(() => {
     const getAllUsers = async () => {
       try {
@@ -24,6 +27,10 @@ const UserList = () => {
     };
     getAllUsers();
   }, []);
+
+  const handleViewUser = (userId: string): void => {
+    navigate(`/user/${userId}`);
+  };
 
   if (userList.length === 0 || !loggedInUser) {
     return <></>;
@@ -42,7 +49,12 @@ const UserList = () => {
       <tbody>
         {userList.map(
           (
-            user: { firstName: string; lastName: string; role: string },
+            user: {
+              id: string;
+              firstName: string;
+              lastName: string;
+              role: string;
+            },
             index
           ) => {
             return (
@@ -51,6 +63,7 @@ const UserList = () => {
                 user={user}
                 index={index}
                 loggedInUser={loggedInUser}
+                handleViewUser={handleViewUser}
               />
             );
           }
@@ -62,14 +75,16 @@ const UserList = () => {
 
 type UserRowProps = {
   loggedInUser: User;
-  user: { firstName: string; lastName: string; role: string };
+  user: { id: string; firstName: string; lastName: string; role: string };
   index: number;
+  handleViewUser: (userId: string) => void;
 };
 
 const UserRow = ({
   loggedInUser,
   user,
   index,
+  handleViewUser,
 }: UserRowProps): React.ReactNode => {
   return (
     <tr key={index}>
@@ -78,7 +93,7 @@ const UserRow = ({
       <td>{user.role}</td>
       <td>
         {loggedInUser?.isAdmin && <button>delete</button>}
-        <button>view</button>
+        <button onClick={() => handleViewUser(user.id)}>view</button>
       </td>
     </tr>
   );

@@ -1,17 +1,9 @@
-import Header from "../features/Header";
-import Login from "../features/Login";
-import UserList from "../features/UserList";
-import useAuth from "../hooks/useAuth";
+import React from "react";
+const UserList = React.lazy(() => import("../features/UserList"));
 
 const Home = () => {
-  const { user, userLoggedIn } = useAuth();
-
-  if (!userLoggedIn || !user) {
-    return <Login />;
-  }
   return (
     <>
-      <Header user={user} />
       <UserList />
     </>
   );

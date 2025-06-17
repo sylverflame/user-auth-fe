@@ -8,7 +8,7 @@ type ProtectedRouteProps = {
 const ProtectedRoute = ({ element }: ProtectedRouteProps): React.ReactNode => {
   const { userLoggedIn } = useAuth();
   if (!userLoggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
 
   return element;

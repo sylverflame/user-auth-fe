@@ -1,15 +1,30 @@
 import "./App.css";
-import Register from "./features/Register";
 import Home from "./pages/Home";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./features/ProtectedRoute";
+import AppLayout from "./layout/AppLayout";
+import React from "react";
+
+const ViewUser = React.lazy(() => import("./pages/ViewUser"));
+const Register = React.lazy(() => import("./features/Register"));
 
 function App() {
   return (
     <>
       <div className="app">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="register" element={<Register />} />
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<Home />} />
+            <Route path="user">
+              <Route index element={<Navigate to="/" replace />} />
+              <Route
+                path=":uid"
+                element={<ProtectedRoute element={<ViewUser />} />}
+              />
+            </Route>
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </>
