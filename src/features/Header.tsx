@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { User } from "../context/AuthContext";
 import useAuth from "../hooks/useAuth";
 import "./Header.css";
@@ -8,8 +9,10 @@ type HeaderProps = {
 
 const Header = ({ user }: HeaderProps): React.ReactNode => {
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const handleLogout = () => {
     logout();
+    navigate("/");
   };
   return (
     <div className="header-component">
