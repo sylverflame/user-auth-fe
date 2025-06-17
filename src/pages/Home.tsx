@@ -1,6 +1,6 @@
 import Login from "../features/Login";
 
-const LoginPage = () => {
+const Home = () => {
   return (
     <>
       <Login />
@@ -8,4 +8,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Home;
