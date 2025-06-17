@@ -17,8 +17,8 @@ const Login = () => {
       const URL = API_BASE_URL + END_POINTS.auth.login;
       const response = await axios.post(URL, { username, password });
       if (response.status === Status.Success) {
-        const token = (response.data as any).jwt;
-        login({ username, token });
+        const user = (response.data as any).user;
+        login(user);
       }
     } catch (error: any) {
       console.log(error);

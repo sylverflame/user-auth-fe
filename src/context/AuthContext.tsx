@@ -1,7 +1,8 @@
 import { createContext, useState } from "react";
 
-type User = {
+export type User = {
   username: string;
+  role: string;
   token: string;
 };
 
